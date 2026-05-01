@@ -17,7 +17,7 @@
         deb http://mirrors.aliyun.com/ubuntu/ noble-security main restricted universe multiverse            //按 Ctrl + O​ -> 回车（保存）,按 Ctrl + X​ （退出）。
     sudo apt update            //这时应该就不会报错可以正常使用了
 ```
-<br>
+
 
 &emsp;&emsp;2. <b>用 ip addr命令显示不出ens33的IP地址</b>
 <img width="849" height="219" alt="ip addr" src="https://github.com/user-attachments/assets/8e96b2b6-bdf4-4612-a1c5-98f52bb1706d" />
