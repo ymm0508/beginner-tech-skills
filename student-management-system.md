@@ -21,9 +21,9 @@
 ## 🧩 代码结构
 ### 主要函数说明
 ```
-int main()      //主函数
-void input(Student *s)      // 录入学生信息 - 收集5个学生的数据
-void output(Student *s)      // 计算平均分 - 计算并返回平均分数
-float avaragescore(Student *s, float average)      // 显示学生信息 - 格式化输出所有学生数据
-void writefile(Student *s,float aver)      // 保存到文件 - 将数据写入文本文件
+    int main()      //主函数
+    void input(Student *s)      // 录入学生信息 - 收集5个学生的数据
+    void output(Student *s)      // 计算平均分 - 计算并返回平均分数
+    float avaragescore(Student *s, float average)      // 显示学生信息 - 格式化输出所有学生数据
+    void writefile(Student *s,float aver)      // 保存到文件 - 将数据写入文本文件
 ```
