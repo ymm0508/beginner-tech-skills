@@ -4,7 +4,32 @@
 - 测试Windows与Linux的网络连通性
 
 ## 任务1：安装Ubuntu
-### 安装完成后我最先遇到了两个问题：  
+### 一、设置root密码（忘记账号密码）
+#### 通过 Recovery Mode 重置：
+1. 重启并进入 Grub 菜单
+重启虚拟机，在开机看到 Logo 或黑底白字时，<b>长按 Shift键</b>（部分 UEFI 启动的机器可能需要按 Esc键），直到出现 <b>GNU GRUB​</b> 菜单。
+2. 选择恢复模式
+用方向键选中 <b>```Advanced options for Ubuntu```</b>，按回车。在下一屏中，选中带有 (```recovery mode```)​ 字样的选项（通常是最上面的那个），再次按回车。
+3. 进入 Root 命令行
+系统会加载一堆代码，最后停在一个蓝色的 <b>Recovery Menu</b>​ 界面。用方向键选中 <b>```root - Drop to root shell prompt```</b>，按回车。
+此时屏幕底部会出现一个闪烁的光标，这就是拥有最高权限的 Root 命令行。
+4. 修改密码
+系统的恢复模式默认是只读的，我们需要先解锁写入权限，然后修改你的账号密码。依次输入以下命令（每行输完按回车）：
+- 当输入```ls /home```能查看到用户账号时
+```bash
+    mount -o remount,rw /
+    passwd （账号）            //如果忘记账号可以在这行代码前输入 ls /home查看系统里有哪些用户
+```
+- 当输入```ls /home```没有任何显示时，说明不小心跳过了创建普通用户，你需要给系统默认的超级管理员账号 root设置密码
+```
+    mount -o remount,rw /
+    passwd root
+```
+- 输入 ```passwd （账号）```后，系统会提示你输入新的密码（输入时屏幕无显示，这是正常的），回车后再次输入确认。看到 ```password updated successfully```即表示成功。
+5. 重启
+输入 ```reboot -f```强制重启，之后就可以用新密码登录自己的账号了。
+
+### 二、安装完成后我最先遇到了两个问题：  
 &emsp;&emsp;<b>1. 执行 sudo apt update时，系统一直在尝试读取 file:/cdrom）但找不到文件</b>
 <img width="842" height="288" alt="apt install" src="https://github.com/user-attachments/assets/52795946-60a6-4884-a456-1ac91c6fda3f" />
 &emsp;&emsp;我的解决步骤是：  
@@ -71,3 +96,21 @@ int main() {
 ```./hello```
 
 ## 任务三：测试Windows和Ubuntu的连通性
+服务器版默认通常已经配置好了网络（一般是 NAT 模式或桥接模式），我们直接测试连通性。
+### 1. 获取 Ubuntu 的 IP 地址
+在 Ubuntu 命令行输入：
+```
+ip addr
+```
+- 找到类似 ```ens33```或 ```eth0```的网卡名称，看它下面 ```inet```后面的地址（格式像 192.168.x.x或 10.x.x.x）。把这个 IP 地址记下来。
+### 2. Windows Ping Ubuntu
+- 在 Windows 上按 ```Win + R```，输入 ```cmd```回车打开黑窗口。
+- 输入 ```ping <你刚才记下的Ubuntu IP>```（比如 ping 192.168.10.128）。
+- 如果看到“来自 192.168.x.x 的回复”，说明 Windows 能连上你的服务器。
+### 3. Ubuntu Ping Windows
+- 先查看你 Windows 的 IP：在 Windows 的 cmd 里输入 ```ipconfig```，找到“IPv4 地址”（通常是 192.168.1.x）。
+回到 Ubuntu 终端，输入：
+```
+ping <你的Windows IP>
+```
+- 按 ```Ctrl + C```停止测试。如果能看到回显数据，说明双向网络畅通
